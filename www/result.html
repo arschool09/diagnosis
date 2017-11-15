@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=yes">
+	<meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+	<script src="components/loader.js"></script>
+	<link rel="stylesheet" href="components/loader.css">
+
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="lib/open-iconic/font/css/open-iconic-bootstrap.css">
+	<script src="lib/jquery-3.2.1.slim.min.js"></script>
+	<script src="lib/popper.min.js"></script>
+	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+
+	<script src="js/arschool.js"></script>
+
+	<link rel="stylesheet" href="css/arschool.css">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/result.sample.js"></script>
+
+	<title>ArSchoolの診断アプリ | 診断結果</title>
+	<script>
+		const ars = new Ars();
+		$(function() {
+			ars.initR();
+		});
+	</script>
+</head>
+<body id="result-page">
+<div class="container-fluid">
+	<!-- 見出し -->
+	<div class="row">
+		<div class="col">
+			<h1 id="quiz-title">診断結果発表！</h1>
+		</div>
+	</div>
+
+	<!-- 診断結果を表示 -->
+	<div class="row">
+		<div class="col">
+			<h2 id="result-title">{title}</h2>
+			<div id="result-image"><img src="" alt="診断結果"></div>
+			<div id="result-text">{text}</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col" id="nav-center">
+			<a href="index.html" class="btn btn-secondary">診断ページに戻る</a>
+		</div>
+	</div>
+</div>
+</body>
+</html>
