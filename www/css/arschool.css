@@ -1,21 +1,41 @@
 /* ----------------
+ 全体（PCで見たときもスマホっぽく
+ ---------------- */
+@media (min-width:480px) {
+    div.container-fluid{
+        max-width: 480px;
+        min-height: 600px;
+        border-radius: 8px;
+
+        /* box-shadow */
+        box-shadow:0px 0px 10px 0px #d9d9d9;
+    }
+}
+
+/* ----------------
+ 全体
+ ---------------- */
+body{
+    background: #fcfcf6;
+}
+
+/* ----------------
  質問ページ
  ---------------- */
 body#question-page{
-    background: #f9f9f3;
 }
 /* -- 質問の見出し -- */
 #quiz-title{
     margin-top: 24px;
     margin-bottom: 24px;
     font-size: 24px;
-    color: #990000;
+    color: #7a0000;
     text-align: center;
 }
 /* -- 質問の文章 -- */
-#question-title{
+#question-state{
     font-size: 16px;
-    border: 1px solid #990000;
+    border: 1px solid #7a0000;
     background: #ffffff;
     padding:16px;
     border-radius: 10px;
@@ -30,19 +50,20 @@ body#question-page{
 
 /* -- 質問の選択肢全体(文章を選ぶ質問) -- */
 #ul-select.text{
-    background: #e2cccc;
-    padding: 8px 4px;
+    background-image: linear-gradient(to top left, #A5A5A5, #BABAC2, #E8E8E8, #A5A5A5, #BABAC2);
+
+    padding: 16px 4px 16px;
     border-radius: 4px;
 }
 
 /* -- 質問の各選択肢（文章を選ぶ質問） --*/
 #ul-select.text li{
-    color: #ffffff;
+    color: #7a0000;
     line-height: 1.2;
-    border: 2px solid #990000;
+    border: 1px solid #7a0000;
     border-radius: 4px;
-    background: #ec9090;
-    padding: 10px 16px;
+    background: #fff;
+    padding: 14px 18px;
     margin-bottom: 8px;
 }
 
@@ -56,7 +77,6 @@ body#question-page{
 #ul-select.image{
     list-style-type: none;
     padding: 8px;
-    background: #cdfaff;
 }
 
 /* -- 質問の各選択肢（画像を選ぶ質問） --*/
@@ -73,32 +93,44 @@ body#question-page{
     border-radius: 6px;
 }
 
+/* -- 前の質問に戻るボタン -- */
+#back-button{
+    display: none;
+}
 
 /* ----------------
  診断結果ページ
  ---------------- */
 body#result-page{
-    background: #fff0f9;
+}
+
+/* -- 診断結果ページの見出し -- */
+#result-title{
+    margin-top: 24px;
+    margin-bottom: 24px;
+    font-size: 24px;
+    color: #7a0000;
+    text-align: center;
 }
 
 /* -- 診断結果の見出し -- */
-#result-title{
+#result-state{
     font-size: 22px;
 }
 
 /* -- 診断結果の画像の外枠 -- */
 #result-image{
     margin-bottom: 10px;
-    border: 4px double #ff0000;
 }
 
 /* -- 診断結果の画像 -- */
 #result-image img{
+    border: 4px double #7a0000;
     max-width: 100%;
 }
 
 /* -- 診断結果の説明文 -- */
-#result-text{
+#result-detail{
     margin-bottom: 36px;
 }
 

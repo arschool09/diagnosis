@@ -3,9 +3,13 @@
  */
 class Ars {
 	constructor() {
-		this.userAnswers = {};
+		this.userAnswers = {}; //ユーザーの回答
+		this.validator = new AppValidator(); //診断アプリのバリデーター
 	}
 
+	setTitle(title){
+		$('#quiz-title').html(title);
+	}
 	/**
 	 * 文章で選ぶ質問を表示する
 	 * @param qnum 質問番号
@@ -13,37 +17,27 @@ class Ars {
 	 * @param choices 質問の選択肢
 	 */
 	showTextQ(qnum, title, choices){
-		const func = 'Ars.showTextQ';
-		//引数のバリデーション
-		if(typeof qnum !== 'number'){
-			alert(`${func}のqnumには質問番号の数字を入れてください`);
+		// 引数のバリデーション
+		if(!this.validator.run('Ars.showTextQ', {qnum, title, choices})){
+			return false;
 		}
-		if(typeof title !== 'string'){
-			alert(`${func}のtitleには質問の見出しを入れてください`);
-		}else if(title === ""){
-			alert(`${func}のtitleが設定されていません`);
-		}
-		if(!Array.isArray(choices)){
-			alert(`${func}のchoicesには配列を入れてください`);
-		}else if(choices.length === 0){
-			alert(`${func}のchoicesが空です。選択肢を入れてください`);
-		}
-
 
 		//タイトルを変更する
-		$('#question-title').html(title);
+		$('#question-state').html(title);
 
 		//選択肢のクラス変更
 		const $ulSelect = $('#ul-select');
 		$ulSelect.removeClass('image');
 		$ulSelect.addClass('text');
+		$ulSelect.attr('data-qnum', qnum);
+
 
 		// 選択肢のHTMLを作成する
 		let choicesHtml = "";
 		for(let i=0; i<choices.length; i++){
 			let label = choices[i];
 			let html = `
-<li data-answer="${i}" class="trg-q" data-qnum="${qnum}">
+<li data-answer="${i}" class="trg-q">
 	${label}
 </li>
 `;
@@ -56,21 +50,6 @@ class Ars {
 		//選択肢を表示する
 		$ulSelect.html(choicesHtml);
 
-		//クリックイベントをバインドする
-		let $li = $ulSelect.find(`[data-qnum="${qnum}"]`);
-		this.bindAnswerClick($li);
-
-		// $ulSelect.find(`[data-qnum="${qnum}"]`).on('click', function(){
-		// 	alert('attr event');
-		// 	let qnum = $(this).attr('data-qnum');
-		// 	let answer = $(this).attr('data-answer');
-		//
-		// 	qnum = parseInt(qnum);
-		// 	answer = parseInt(answer);
-		//
-		// 	selectAnswer(qnum, answer);
-		// });
-
 	}
 
 
@@ -81,30 +60,19 @@ class Ars {
 	* @param choices 質問の選択肢
 	*/
 	showImageQ (qnum, title, choices){
-		const func = 'Ars.showImageQ';
-		//引数のバリデーション
-		if(typeof qnum !== 'number'){
-			alert(`${func}のqnumには質問番号の数字を入れてください`);
+		// 引数のバリデーション
+		if(!this.validator.run('Ars.showImageQ', {qnum, title, choices})){
+			return false;
 		}
-		if(typeof title !== 'string'){
-			alert(`${func}のtitleには質問の見出しを入れてください`);
-		}else if(title === ""){
-			alert(`${func}のtitleが設定されていません`);
-		}
-		if(!Array.isArray(choices)){
-			alert(`${func}のchoicesには配列を入れてください`);
-		}else if(choices.length === 0){
-			alert(`${func}のchoicesが空です。選択肢を入れてください`);
-		}
-
 
 		//タイトルを変更する
-		$('#question-title').html(title);
+		$('#question-state').html(title);
 
 		//選択肢のクラス変更
 		const $ulSelect = $('#ul-select');
 		$ulSelect.removeClass('text');
 		$ulSelect.addClass('image');
+		$ulSelect.attr('data-qnum', qnum);
 
 		// 選択肢のHTMLを作成する
 		let choicesHtml = "";
@@ -113,7 +81,7 @@ class Ars {
 			// let html = this.imageChoiceTpl;
 			let image = choices[i];
 			let html = `
-<li data-answer="${i}" class="trg-q" data-qnum="${qnum}">
+<li data-answer="${i}" class="trg-q">
 	<img src="${image}" class="choice-image">
 </li>
 `;
@@ -126,45 +94,43 @@ class Ars {
 		//選択肢を表示する
 		$ulSelect.html(choicesHtml);
 
-		//クリックイベントをバインドする
-		let $li = $ulSelect.find(`[data-qnum="${qnum}"]`);
-		this.bindAnswerClick($li);
-
 	}
 
-	/*
-	 * 質問の選択肢（回答時）のクリックイベント
-	 * 質問番号と回答を、開発者定義の回答関数に渡す
-	 */
-	bindAnswerClick($li){
-		$li.on('click', function(){
-			let qnum = $(this).attr('data-qnum');
-			let answer = $(this).attr('data-answer');
-
-			qnum = parseInt(qnum);
-			answer = parseInt(answer);
-
-			selectAnswer(qnum, answer);
-		});
-
-	}
 
 	/**
 	 * 診断結果を表示する
-	 * @param title
-	 * @param image
-	 * @param text
+	 * @param state 診断結果の見出し
+	 * @param image 画像のsrc
+	 * @param detail 診断結果の詳細
 	 */
-	showResult(title, image, text){
+	showResult(state, image, detail){
 		//タイトルをセット
-		$('#result-title').html(title);
+		this.resultState(state);
 
 		// 画像をセット
-		$('#result-image').find('img').attr('src', image);
+		this.resultImage(image);
 
 		//診断結果のテキストをセット
-		$('#result-text').html(text);
+		this.resultDetail(detail)
 	}
+
+	resultState(state){
+		//タイトルをセット
+		$('#result-state').html(state);
+	}
+
+	resultImage(image){
+		// 画像をセット
+		let html = `<img src=${image}>`;
+		$('#result-image').html(html);
+	}
+
+	resultDetail(detail){
+		//診断結果のテキストをセット
+		$('#result-detail').html(detail);
+	}
+
+
 
 	/**
 	 * 各質問の回答を保存する
@@ -185,6 +151,23 @@ class Ars {
 		return this.userAnswers;
 	}
 
+	/**
+	 * 特定の回答を返す
+	 * @param qnum
+	 * @returns {number}
+	 */
+	getAnswer(qnum){
+		let question = "q" + qnum;
+		if(this.userAnswers[question] == null) {
+			Validator.alert('qnumが正しくありません。 qnum='+qnum);
+			return -1;
+		}
+		else {
+			return parseInt(this.userAnswers[question]);
+		}
+
+	}
+
 
 	/**
 	 * 前の質問に戻るボタンを表示する
@@ -194,65 +177,56 @@ class Ars {
 	showBackButton(qnum){
 		//戻るボタン表示
 		$('#back-button').attr('data-to', qnum);
-		$('#nav-left').show();
+		$('#back-button').show();
 	}
 
 	/**
 	 * 前の質問に戻るボタンを非表示にする
 	 */
 	hideBackButton(){
-		$('#nav-left').hide();
-	}
-
-	/**
-	 * URLパラメータから値を取得する
-	 * @param target
-	 * @returns {*}
-	 */
-	getUrlVars(target){
-		let vars = {};
-		let param = location.search.substring(1).split('&');
-		for(let i = 0; i < param.length; i++) {
-			let keySearch = param[i].search(/=/);
-			let key = '';
-			if(keySearch != -1) key = param[i].slice(0, keySearch);
-			let val = param[i].slice(param[i].indexOf('=', 0) + 1);
-			if(key != '') vars[key] = decodeURI(val);
-		}
-
-		if(target != null){
-			return vars[target];
-		}else{
-			return vars;
-		}
+		$('#back-button').hide();
 	}
 
 
 	/**
 	 * 診断結果を取得し返す
 	 * 当処理ではGETパラメータのrの値を返す
-	 * @returns {*}
+	 * @returns {number}
 	 */
 	getResult(){
-		return this.getUrlVars('r');
+		return parseInt(Util.getUrlVars('r'));
 	}
+
 
 	/**
 	 * 質問ページの初期処理
 	 * イベントバインドなどの初期化処理を行う
 	 */
 	initQ(){
+		//質問の選択肢（回答時）のクリックイベント
+		$(document).on('click', '.trg-q', function(){
+			if(typeof selectAnswer !== 'function') Validator.notFunction('selectAnswer');
 
-		//質問の選択肢（回答時）のクリックイベントは, live機能がmonacaで想定通りの挙動をしないため、要素追加後に個別にバインドする
+			let qnum = parseInt($(this).parent('#ul-select').attr('data-qnum'));
+			let answer = parseInt($(this).attr('data-answer'));
+
+			// 質問の回答を保存する
+			ars.saveAnswer(qnum, answer);
+
+			selectAnswer(qnum);
+		});
 
 		//戻るボタンのバインド
 		$('#back-button').on('click', function(){
 			let qnum = $(this).attr('data-to');
 			qnum = parseInt(qnum);
+
+			if(typeof clickBackButton !== 'function') Validator.notFunction('clickBackButton');
 			clickBackButton(qnum);
 		});
 
-		initQ();
+		if(typeof startQ !== 'function') Validator.notFunction('startQ');
+		startQ();
 
 	}
 
@@ -261,8 +235,144 @@ class Ars {
 	 * 診断結果ページの初期処理
 	 */
 	initR(){
-		initR();
+		if(typeof startR !== 'function') Validator.notFunction('startR');
+		startR();
 	}
 
 }
 
+
+/**
+ * 診断アプリのバリデーター
+ */
+class AppValidator extends Validator {
+	constructor() {
+		super();
+		// 診断アプリの関数ごとの引数バリデーションルール
+		this.rules = {
+			'Ars.showTextQ' : {
+				'qnum' : [
+					['type', 'number'], 'required'
+				],
+				'title' : [
+					['type', 'string'], 'required'
+				],
+				'choices' : [
+					['type', 'array'], 'required'
+				]
+			},
+			'Ars.showImageQ' : {
+				'qnum' : [
+					['type', 'number'], 'required'
+				],
+				'title' : [
+					['type', 'string'], 'required'
+				],
+				'choices' : [
+					['type', 'array'], 'required'
+				]
+			}
+		};
+	}
+
+}
+
+/**
+ * 質問クラス
+ */
+class Quiz {
+	constructor(qnum) {
+		this.data = {
+			qnum : qnum, //質問番号
+			choices : [], //選択肢
+			type : null //質問のタイプ(t:文章, i:画像か)
+		};
+
+		this.init();
+	}
+
+	/**
+	 * 質問の初期化
+	 */
+	init(){
+		//タイトルを変更する
+		$('#question-state').html('');
+
+		//選択肢のクラス変更
+		const $ulSelect = $('#ul-select');
+		$ulSelect.html('');
+		$ulSelect.removeClass('text');
+		$ulSelect.removeClass('image');
+		$ulSelect.attr('data-qnum', this.data.qnum);
+	}
+
+	/**
+	 * 質問のタイプ（文章(t)か画像(i)か）を設定する
+	 * @param type
+	 */
+	type(type){
+		// typeはtかiのみ設定できる
+		if(type !== 't' && type !== 'i') {
+			Validator.alert('type()にはtかiをセットしてください');
+			return false;
+		}
+
+		this.data.type = type;
+
+		const $ulSelect = $('#ul-select');
+		if(type === 't') {
+			$ulSelect.addClass('text');
+		}
+		else {
+			$ulSelect.addClass('image');
+		}
+
+
+		return true;
+	}
+
+	/**
+	 * 質問文を設定する
+	 * @param title
+	 */
+	state(title){
+		$('#question-state').html(title);
+	}
+
+	/**
+	 * 質問の選択肢を追加する
+	 * 前提：this.type()が実行済みであること
+	 * @param choice
+	 */
+	choice(choice){
+		if(this.data.type == null) {
+			Validator.alert('type()を先に実行して、質問のタイプを決めてください');
+			return false;
+		}
+
+		// 選択肢のHTMLを作成する
+		let i = this.data.choices.length;
+		this.data.choices.push(choice);
+		let html;
+		if(this.data.type === 't') {
+			html = `
+<li data-answer="${i}" class="trg-q">
+	${choice}
+</li>
+`;
+		}
+		else {
+			html = `
+<li data-answer="${i}" class="trg-q">
+	<img src="${choice}" class="choice-image">
+</li>
+`;
+		}
+
+		//選択肢を表示する
+		$('#ul-select').append(html);
+
+	}
+
+
+}

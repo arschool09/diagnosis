@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=yes">
+
+	<!-- required by bootstrap -->
+	<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="../lib/open-iconic/font/css/open-iconic-bootstrap.css">
+	<script src="../lib/jquery-3.2.1.slim.min.js"></script>
+	<script src="../lib/popper.min.js"></script>
+	<script src="../lib/bootstrap/js/bootstrap.min.js"></script>
+
+	<!-- ArSchool -->
+	<link rel="stylesheet" href="../css/arschool.css">
+	<script src="../js/common.js"></script>
+	<script src="../js/arschool.js"></script>
+
+	<!-- Application -->
+	<link rel="stylesheet" href="style.css">
+	<script src="question.js"></script>
+
+	<title>ArSchoolの診断アプリ</title>
+	<script>
+		const ars = new Ars();
+		$(function() {
+			ars.initQ();
+		});
+	</script>
+</head>
+<body id="question-page">
+<div class="container-fluid">
+	<!-- 見出し -->
+	<div class="row">
+		<div class="col">
+			<h1 id="quiz-title">{title}</h1>
+		</div>
+	</div>
+
+	<!-- 問題を表示 -->
+	<div id="quiz-main" class="row">
+		<div class="col">
+			<h2 id="question-state" class="">{title}</h2>
+			<ul id="ul-select" class="">{choices}</ul>
+		</div>
+	</div>
+
+	<!-- 戻るボタン -->
+	<div class="row">
+		<div class="col" id="nav-left">
+			<button type="button" class="btn btn-secondary" id="back-button" data-to="">前の質問に戻る</button>
+		</div>
+	</div>
+</div>
+</body>
+</html>
