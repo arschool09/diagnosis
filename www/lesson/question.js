@@ -87,7 +87,6 @@ let selectAnswer = (qn) => {
 		// 診断結果に行く
 		gotoResult();
 	}
-
 };
 
 

@@ -19,8 +19,13 @@ let startR = () => {
  * @param result 診断結果
  */
 let showResult = (result) => {
+	// 診断結果の見出し
 	let state = '';
+
+	// 診断結果の画像
 	let image = '';
+
+	// 診断結果の説明文
 	let detail = '';
 
 	//結果が1だった場合
