@@ -204,18 +204,8 @@ class Ars {
 	 * イベントバインドなどの初期化処理を行う
 	 */
 	initQ(){
-		//質問の選択肢（回答時）のクリックイベント
-		$(document).on('click', '.trg-q', function(){
-			if(typeof eranda !== 'function') Validator.notFunction('eranda');
-
-			let qnum = parseInt($(this).parent('#ul-select').attr('data-qnum'));
-			let answer = parseInt($(this).attr('data-answer'));
-
-			// 質問の回答を保存する
-			ars.saveAnswer(qnum, answer);
-
-			eranda(qnum);
-		});
+		// //質問の選択肢（回答時）のクリックイベント
+		// iOSで $(document).on('click', target, func)が動かないので、要素をDOM追加後にバインドに変更
 
 		//戻るボタンのバインド
 		$('#back-button').on('click', function(){
@@ -372,6 +362,19 @@ class Situmon {
 
 		//選択肢を表示する
 		$('#ul-select').append(html);
+
+		//質問の選択肢（回答時）のクリックイベント
+		$('#ul-select [data-answer="'+i+'"]').on('click', function(){
+			if(typeof eranda !== 'function') Validator.notFunction('eranda');
+
+			let qnum = parseInt($(this).parent('#ul-select').attr('data-qnum'));
+			let answer = parseInt($(this).attr('data-answer'));
+
+			// 質問の回答を保存する
+			ars.saveAnswer(qnum, answer);
+
+			eranda(qnum);
+		});
 
 	}
 
