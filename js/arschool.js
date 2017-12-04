@@ -7,94 +7,95 @@ class Ars {
 		this.validator = new AppValidator(); //診断アプリのバリデーター
 	}
 
-	setTitle(title){
+	taitoru(title){
 		$('#quiz-title').html(title);
 	}
-	/**
-	 * 文章で選ぶ質問を表示する
-	 * @param qnum 質問番号
-	 * @param title 質問の見出し
-	 * @param choices 質問の選択肢
-	 */
-	showTextQ(qnum, title, choices){
-		// 引数のバリデーション
-		if(!this.validator.run('Ars.showTextQ', {qnum, title, choices})){
-			return false;
-		}
 
-		//タイトルを変更する
-		$('#question-state').html(title);
-
-		//選択肢のクラス変更
-		const $ulSelect = $('#ul-select');
-		$ulSelect.removeClass('image');
-		$ulSelect.addClass('text');
-		$ulSelect.attr('data-qnum', qnum);
-
-
-		// 選択肢のHTMLを作成する
-		let choicesHtml = "";
-		for(let i=0; i<choices.length; i++){
-			let label = choices[i];
-			let html = `
-<li data-answer="${i}" class="trg-q">
-	${label}
-</li>
-`;
-
-			choicesHtml += html;
-			choicesHtml += "\n";
-		}
-
-
-		//選択肢を表示する
-		$ulSelect.html(choicesHtml);
-
-	}
-
-
-	/**
-	* 画像で選ぶ質問を表示する
-	* @param qnum 質問番号
-	* @param title 質問の見出し
-	* @param choices 質問の選択肢
-	*/
-	showImageQ (qnum, title, choices){
-		// 引数のバリデーション
-		if(!this.validator.run('Ars.showImageQ', {qnum, title, choices})){
-			return false;
-		}
-
-		//タイトルを変更する
-		$('#question-state').html(title);
-
-		//選択肢のクラス変更
-		const $ulSelect = $('#ul-select');
-		$ulSelect.removeClass('text');
-		$ulSelect.addClass('image');
-		$ulSelect.attr('data-qnum', qnum);
-
-		// 選択肢のHTMLを作成する
-		let choicesHtml = "";
-		for(let i=0; i<choices.length; i++){
-			// let html = Tpl.imageChoice;
-			// let html = this.imageChoiceTpl;
-			let image = choices[i];
-			let html = `
-<li data-answer="${i}" class="trg-q">
-	<img src="${image}" class="choice-image">
-</li>
-`;
-
-			choicesHtml += html;
-			choicesHtml += "\n";
-
-		}
-
-		//選択肢を表示する
-		$ulSelect.html(choicesHtml);
-
-	}
+// 	/**
+// 	 * 文章で選ぶ質問を表示する
+// 	 * @param qnum 質問番号
+// 	 * @param title 質問の見出し
+// 	 * @param choices 質問の選択肢
+// 	 */
+// 	showTextQ(qnum, title, choices){
+// 		// 引数のバリデーション
+// 		if(!this.validator.run('Ars.showTextQ', {qnum, title, choices})){
+// 			return false;
+// 		}
+//
+// 		//タイトルを変更する
+// 		$('#question-state').html(title);
+//
+// 		//選択肢のクラス変更
+// 		const $ulSelect = $('#ul-select');
+// 		$ulSelect.removeClass('image');
+// 		$ulSelect.addClass('text');
+// 		$ulSelect.attr('data-qnum', qnum);
+//
+//
+// 		// 選択肢のHTMLを作成する
+// 		let choicesHtml = "";
+// 		for(let i=0; i<choices.length; i++){
+// 			let label = choices[i];
+// 			let html = `
+// <li data-answer="${i}" class="trg-q">
+// 	${label}
+// </li>
+// `;
+//
+// 			choicesHtml += html;
+// 			choicesHtml += "\n";
+// 		}
+//
+//
+// 		//選択肢を表示する
+// 		$ulSelect.html(choicesHtml);
+//
+// 	}
+//
+//
+// 	/**
+// 	* 画像で選ぶ質問を表示する
+// 	* @param qnum 質問番号
+// 	* @param title 質問の見出し
+// 	* @param choices 質問の選択肢
+// 	*/
+// 	showImageQ (qnum, title, choices){
+// 		// 引数のバリデーション
+// 		if(!this.validator.run('Ars.showImageQ', {qnum, title, choices})){
+// 			return false;
+// 		}
+//
+// 		//タイトルを変更する
+// 		$('#question-state').html(title);
+//
+// 		//選択肢のクラス変更
+// 		const $ulSelect = $('#ul-select');
+// 		$ulSelect.removeClass('text');
+// 		$ulSelect.addClass('image');
+// 		$ulSelect.attr('data-qnum', qnum);
+//
+// 		// 選択肢のHTMLを作成する
+// 		let choicesHtml = "";
+// 		for(let i=0; i<choices.length; i++){
+// 			// let html = Tpl.imageChoice;
+// 			// let html = this.imageChoiceTpl;
+// 			let image = choices[i];
+// 			let html = `
+// <li data-answer="${i}" class="trg-q">
+// 	<img src="${image}" class="choice-image">
+// </li>
+// `;
+//
+// 			choicesHtml += html;
+// 			choicesHtml += "\n";
+//
+// 		}
+//
+// 		//選択肢を表示する
+// 		$ulSelect.html(choicesHtml);
+//
+// 	}
 
 
 	/**
@@ -114,18 +115,18 @@ class Ars {
 		this.resultDetail(detail)
 	}
 
-	resultState(state){
+	miseruMidasi(state){
 		//タイトルをセット
 		$('#result-state').html(state);
 	}
 
-	resultImage(image){
+	miseruGazo(image){
 		// 画像をセット
 		let html = `<img src=${image}>`;
 		$('#result-image').html(html);
 	}
 
-	resultDetail(detail){
+	miseruSetumei(detail){
 		//診断結果のテキストをセット
 		$('#result-detail').html(detail);
 	}
@@ -156,7 +157,7 @@ class Ars {
 	 * @param qnum
 	 * @returns {number}
 	 */
-	getAnswer(qnum){
+	toruKotae(qnum){
 		let question = "q" + qnum;
 		if(this.userAnswers[question] == null) {
 			Validator.alert('qnumが正しくありません。 qnum='+qnum);
@@ -174,7 +175,7 @@ class Ars {
 	 * 表示時は、data-to属性に、現在の質問番号をセット
 	 * @param qnum 表示している質問番号
 	 */
-	showBackButton(qnum){
+	miseruModoru(qnum){
 		//戻るボタン表示
 		$('#back-button').attr('data-to', qnum);
 		$('#back-button').show();
@@ -183,7 +184,7 @@ class Ars {
 	/**
 	 * 前の質問に戻るボタンを非表示にする
 	 */
-	hideBackButton(){
+	kakusuModoru(){
 		$('#back-button').hide();
 	}
 
@@ -193,7 +194,7 @@ class Ars {
 	 * 当処理ではGETパラメータのrの値を返す
 	 * @returns {number}
 	 */
-	getResult(){
+	toruKekka(){
 		return parseInt(Util.getUrlVars('r'));
 	}
 
@@ -205,7 +206,7 @@ class Ars {
 	initQ(){
 		//質問の選択肢（回答時）のクリックイベント
 		$(document).on('click', '.trg-q', function(){
-			if(typeof selectAnswer !== 'function') Validator.notFunction('selectAnswer');
+			if(typeof eranda !== 'function') Validator.notFunction('eranda');
 
 			let qnum = parseInt($(this).parent('#ul-select').attr('data-qnum'));
 			let answer = parseInt($(this).attr('data-answer'));
@@ -213,7 +214,7 @@ class Ars {
 			// 質問の回答を保存する
 			ars.saveAnswer(qnum, answer);
 
-			selectAnswer(qnum);
+			eranda(qnum);
 		});
 
 		//戻るボタンのバインド
@@ -221,12 +222,12 @@ class Ars {
 			let qnum = $(this).attr('data-to');
 			qnum = parseInt(qnum);
 
-			if(typeof clickBackButton !== 'function') Validator.notFunction('clickBackButton');
-			clickBackButton(qnum);
+			if(typeof modoru !== 'function') Validator.notFunction('modoru');
+			modoru(qnum);
 		});
 
-		if(typeof startQ !== 'function') Validator.notFunction('startQ');
-		startQ();
+		if(typeof kaisi !== 'function') Validator.notFunction('kaisi');
+		kaisi();
 
 	}
 
@@ -235,8 +236,8 @@ class Ars {
 	 * 診断結果ページの初期処理
 	 */
 	initR(){
-		if(typeof startR !== 'function') Validator.notFunction('startR');
-		startR();
+		if(typeof kaisi !== 'function') Validator.notFunction('kaisi');
+		kaisi();
 	}
 
 }
@@ -280,7 +281,7 @@ class AppValidator extends Validator {
 /**
  * 質問クラス
  */
-class Quiz {
+class Situmon {
 	constructor(qnum) {
 		this.data = {
 			qnum : qnum, //質問番号
@@ -310,7 +311,7 @@ class Quiz {
 	 * 質問のタイプ（文章(t)か画像(i)か）を設定する
 	 * @param type
 	 */
-	type(type){
+	syurui(type){
 		// typeはtかiのみ設定できる
 		if(type !== 't' && type !== 'i') {
 			Validator.alert('type()にはtかiをセットしてください');
@@ -335,7 +336,7 @@ class Quiz {
 	 * 質問文を設定する
 	 * @param title
 	 */
-	state(title){
+	bun(title){
 		$('#question-state').html(title);
 	}
 
@@ -344,7 +345,7 @@ class Quiz {
 	 * 前提：this.type()が実行済みであること
 	 * @param choice
 	 */
-	choice(choice){
+	sentakusi(choice){
 		if(this.data.type == null) {
 			Validator.alert('type()を先に実行して、質問のタイプを決めてください');
 			return false;
